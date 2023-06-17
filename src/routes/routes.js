@@ -1,28 +1,10 @@
 import { Router } from "express";
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
-
+import UserController from "../controller/UserController";
 const router = Router();
 
-router.post("/user", async (req, res) => {
-    try{
-        const { name, email } = req.body;
-
-        const user = await prisma.user.create({
-            data: {
-                name,
-                email
-            }
-        });
-        return res.json(user);
-    }catch(erro){
-        
-    }
-
-});
+router.post("/user", UserController.createUser);
+router.get("/users", UserController.findAllUsers);
 
 
 
-
-export {router};
+export { router };
