@@ -26,6 +26,7 @@ export default {
             return res.json({ erro })
         }
     },
+
     async findAllUsers(req, res) {
         try {
             const user = await prisma.user.findMany();
@@ -35,4 +36,14 @@ export default {
         }
 
     },
+
+    async findUser(req, res) {
+        try {
+            const { id } = req.params;
+            const user = await prisma.user.findUnique({ where: { id: Number(id) } });
+            return res.json(user);
+        } catch (error) {
+            return res.json({ error });
+        }
+    }
 };
