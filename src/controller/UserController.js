@@ -66,11 +66,27 @@ export default {
                     where: { id: Number(id) },
                     data: { name, email },
                 })
-                return res.json({user})
+                return res.json({ user })
             }
         } catch (error) {
             return res.json({ error });
         }
 
+    },
+    async deleteUser(req, res) {
+        try {
+            const { id } = req.params;
+            const user = await prisma.user.findUnique({ where: { id: Number(id) } });
+
+            if (!user) {
+                return res.json({ message: 'User not found' });
+            } else {
+                await prisma.user.delete({ where: { id: Number(id) } });
+                return res.json({ message: 'User deleted successfully' });
+            }
+
+        } catch (error) {
+            return res.json({ error });
+        }
     },
 };
